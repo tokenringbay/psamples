@@ -1,0 +1,4 @@
+Logging servers usage 20201102_221547
+13.56.157.188: [('/dev', '0%', 'ok'), ('/dev/shm', '0%', 'ok'), ('/run', '1%', 'ok'), ('/sys/fs/cgroup', '0%', 'ok'), ('/', '50%', 'ok'), ('/run/user/1000', '0%', 'ok')]
+13.56.157.189: []
+***                 Servers are not reachable                 ***
