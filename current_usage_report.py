@@ -39,7 +39,8 @@ def get_du_stats(host):
         for p in df_out:
             pArray = p.rstrip().split()
             usage, part = pArray[len(pArray) - 2], pArray[len(pArray) - 1]
-            if 80 < int(usage.rstrip('%')) < 89:
+            #if 80 < int(usage.rstrip('%')) < 89:
+            if 40 < int(usage.rstrip('%')) < 60:
                 status = 'prewarning'
                 flagSystem = True
                 prewarnHosts.add(host)
@@ -86,11 +87,13 @@ def prewarn_du(pDict):
     for h in pDict.keys():
         if pDict[h]:
             print("\t -> {}: pre-warning disk usage".format(h))
+            LF.write("\t -> {}: pre-warning disk usage\n".format(h))
             text_msg += '''\n\t -> {}: pre-warning disk usag'''.format(h)
             for part,usage,status in pDict[h]:
                 if status == 'prewarning':
                     text_msg += '''\n\t {:30} is at {}'''.format(part, usage)
                     print('\t', f'{part:30} is at {usage}')
+                    LF.write("\t{0:30} is at {1}\n".format(part, usage))
 
             print("")
     return text_msg
@@ -161,7 +164,7 @@ if __name__ == '__main__':
     
     # Report hosts that timed out on ssh
     if notreachableHosts:
-        # log not reachable hosts
+        # log non-reachable hosts
         LF.write("***                 Servers are not reachable                 ***\n")
         print("***                 Servers are not reachable                 ***")
         text_msg += '''\n\n***                 Servers are not reachable                 ***'''
@@ -175,6 +178,7 @@ if __name__ == '__main__':
     # Report hosts in Pre-Warning level
     if prewarnHosts:
         text_msg += '''\n\n*** PRE-WARNING: Servers with partitions at pre-warning level ***'''
+        LF.write("*** PRE-WARNING: Servers with partitions at pre-warning level ***\n")
         print("*** PRE-WARNING: Servers with partitions at pre-warning level ***")
         text_msg += prewarn_du(pDict)
         print("")
